@@ -68,6 +68,10 @@
       }
     };
 
+    const CartComponent = {
+
+    },
+
     const app = new Vue({
       el: '#root',
       data: {
@@ -165,6 +169,7 @@
       },
       components: {
         'items-list-component': ItemsListComponent,
-        'search-component': SearchComponent
+        'search-component': SearchComponent,
+        'cart-component': CartComponent
       },
     });
