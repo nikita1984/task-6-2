@@ -68,9 +68,28 @@
       }
     };
 
-    const CartComponent = {
+    const CartItemComponent = {
+      props: [],
+      template:`<div>
 
-    },
+                </div>`,
+      methods: {
+
+      }
+    };
+
+    const CartComponent = {
+      props: [],
+      template: `<div>
+
+                </div>`,
+      methods: {
+
+      },
+      components: {
+        'cart-item-component': CartItemComponent
+      }
+    };
 
     const app = new Vue({
       el: '#root',
