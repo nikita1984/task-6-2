@@ -79,11 +79,14 @@
     };
 
     const CartComponent = {
-      props: [],
+      props: ['items'],
       template: `<div>
 
                 </div>`,
       methods: {
+
+      },
+      computed: {
 
       },
       components: {
