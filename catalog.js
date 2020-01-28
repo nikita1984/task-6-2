@@ -71,9 +71,9 @@
     const CartItemComponent = {
       props: ['id', 'title', 'qty', 'price'],
       template:`<li>
-              <h3>{{title}}</h3>
-              <input class="qty" type="number" v-model="qty" />
-              <button @click="handleDeleteClick(item.id)">x</button>
+             // <h3>{{title}}</h3>
+             // <input class="qty" type="number" v-model="qty" />
+             // <button @click="handleDeleteClick(item.id)">x</button>
             </li>`,
       methods: {
 

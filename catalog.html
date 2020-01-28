@@ -25,7 +25,7 @@
       <items-list-component :items="filteredItems" @buy="handleBuyClick"></items-list-component>
       <button @click="toggleCart">Показать/скрыть корзину</button>
       <div v-if="isCartVisible">
-
+        <cart-component></cart-component>
       </div>
     </main>
   </div>
