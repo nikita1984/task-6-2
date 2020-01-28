@@ -69,10 +69,12 @@
     };
 
     const CartItemComponent = {
-      props: [],
-      template:`<div>
-
-                </div>`,
+      props: ['id', 'title', 'qty', 'price'],
+      template:`<li>
+              <h3>{{title}}</h3>
+              <input class="qty" type="number" v-model="qty" />
+              <button @click="handleDeleteClick(item.id)">x</button>
+            </li>`,
       methods: {
 
       }
@@ -81,13 +83,21 @@
     const CartComponent = {
       props: ['items'],
       template: `<div>
-
+        <h2>Корзина</h2>
+        <div class="cart">
+          <ul>
+          <cart-item-component v-for="item in items"></cart-item-component>  
+          </ul>
+        </div>
+        <div class="total">Общая стоимость товаров: {{total}} рублей</div>
                 </div>`,
       methods: {
 
       },
       computed: {
-
+        total() {
+          return this.items.reduce((acc, item) => acc + item.qty * item.price, 0);
+        },
       },
       components: {
         'cart-item-component': CartItemComponent
@@ -100,7 +110,7 @@
         items: [],
         cart: [],
         query: '',
-        isCartVisible: false,
+        isCartVisible: true,
       },
       methods: {
         handleBuyClick(item) {
@@ -178,9 +188,6 @@
           });
       },
       computed: {
-        total() {
-          return this.cart.reduce((acc, item) => acc + item.qty * item.price, 0);
-        },
         filteredItems() {
           return this.items.filter((item) => {
             const regexp = new RegExp(this.query, 'i');
