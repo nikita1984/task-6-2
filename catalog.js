@@ -71,12 +71,17 @@
     const CartItemComponent = {
       props: ['id', 'title', 'qty', 'price'],
       template:`<li>
-             // <h3>{{title}}</h3>
-             // <input class="qty" type="number" v-model="qty" />
-             // <button @click="handleDeleteClick(item.id)">x</button>
+                    <h3>{{title}}</h3>
+                   // <input class="qty" type="number" v-model="qty"  @input="" />
+                   // <button @click="handleDeleteClick()">x</button>
             </li>`,
       methods: {
-
+        handleDeleteClick(){
+          this.$emit('deleted', )
+        },
+        handleQuantityChange(){
+          this.$emit('changed', )
+        }
       }
     };
 
@@ -86,7 +91,11 @@
         <h2>Корзина</h2>
         <div class="cart">
           <ul>
-          <cart-item-component v-for="item in items"></cart-item-component>  
+          <cart-item-component v-for="item in items" 
+          :id="item.id"
+          :key="item.id"
+          :title="item.title"
+          :price="item.price"></cart-item-component>  
           </ul>
         </div>
         <div class="total">Общая стоимость товаров: {{total}} рублей</div>
@@ -172,7 +181,8 @@
         },
         toggleCart() {
           this.isCartVisible = !this.isCartVisible;
-        }
+        },
+        handleCartChange(){}
       },
       mounted() {
         fetch('/goods')
