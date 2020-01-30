@@ -72,15 +72,15 @@
       props: ['id', 'title', 'qty', 'price'],
       template:`<li>
                     <h3>{{title}}</h3>
-                   // <input class="qty" type="number" v-model="qty"  @input="" />
-                   // <button @click="handleDeleteClick()">x</button>
+                   <input class="qty" type="number" :value="qty"  @input="handleQuantityChange" />
+                   <button @click="handleDeleteClick">x</button> {{price}} x {{qty}} = {{price * qty}}
             </li>`,
       methods: {
         handleDeleteClick(){
-          this.$emit('deleted', )
+          this.$emit('deleted', this.id)
         },
-        handleQuantityChange(){
-          this.$emit('changed', )
+        handleQuantityChange(event){
+          this.$emit('changed', {id: this.id, qty: event.target.value})
         }
       }
     };
@@ -95,13 +95,21 @@
           :id="item.id"
           :key="item.id"
           :title="item.title"
-          :price="item.price"></cart-item-component>  
+          :price="item.price"
+          :qty="item.qty"
+          @changed="handleQuantityChange"
+          @deleted="handleDelete"></cart-item-component>  
           </ul>
         </div>
         <div class="total">Общая стоимость товаров: {{total}} рублей</div>
                 </div>`,
       methods: {
-
+        handleQuantityChange(item){
+          //ToDo this.$emit('changed', )
+        },
+        handleDelete(id){
+          this.$emit('deleted', id)
+        }
       },
       computed: {
         total() {
