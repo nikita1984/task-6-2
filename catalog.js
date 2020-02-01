@@ -190,7 +190,18 @@
         toggleCart() {
           this.isCartVisible = !this.isCartVisible;
         },
-        //ToDo handleCartChange(item){}
+        handleCartChange(item){
+          const cartItem = this.cart.find((cartItem) => +cartItem.id === +item.id);
+          cartItem.qty = item.qty;
+
+          fetch(`/cart/${item.id}`,{
+            method: 'PATCH',
+            body: JSON.stringify({qty: item.qty}),
+            headers: {
+              'Content-type': 'application/json'
+            }
+          });
+        }
       },
       mounted() {
         fetch('/goods')
