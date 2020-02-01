@@ -105,7 +105,7 @@
                 </div>`,
       methods: {
         handleQuantityChange(item){
-          //ToDo this.$emit('changed', )
+          this.$emit('changed', item)
         },
         handleDelete(id){
           this.$emit('deleted', id)
@@ -190,7 +190,7 @@
         toggleCart() {
           this.isCartVisible = !this.isCartVisible;
         },
-        handleCartChange(){}
+        //ToDo handleCartChange(item){}
       },
       mounted() {
         fetch('/goods')
