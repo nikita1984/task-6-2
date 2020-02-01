@@ -25,17 +25,8 @@
       <items-list-component :items="filteredItems" @buy="handleBuyClick"></items-list-component>
       <button @click="toggleCart">Показать/скрыть корзину</button>
       <div v-if="isCartVisible">
-        <h2>Корзина</h2>
-        <div class="cart">
-          <ul>
-            <li v-for="item in cart">
-              <h3>{{item.title}}</h3>
-              <input class="qty" type="number" v-model="item.qty" />
-              <button @click="handleDeleteClick(item.id)">x</button>
-            </li>
-          </ul>
-        </div>
-        <div class="total">Общая стоимость товаров: {{total}} рублей</div>
+        <cart-component :items="cart" @delete="handleDeleteClick" @change="handleQuantityChange"></cart-component>
+
       </div>
     </main>
   </div>

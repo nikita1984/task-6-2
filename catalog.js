@@ -68,13 +68,67 @@
       }
     };
 
+    const CartItemComponent = {
+      props: ['id', 'title', 'price', 'qty'],
+      template: `<li>
+                  <h3>{{title}}</h3>
+                  <input class="qty" type="number" :value="qty" @input="handleQuantityChange" />
+                  <button @click="handleDeleteClick">x</button> {{price}} x {{qty}} = {{price * qty}}
+                </li>`,
+      methods: {
+        handleDeleteClick(){
+          this.$emit('delete', this.id)
+        },
+        handleQuantityChange(event){
+          this.$emit('change', {id: this.id, qty: event.target.value})
+        }
+      },
+    };
+
+    const CartComponent = {
+      props: ['items'],
+      template: `<div>
+            <h2>Корзина</h2>
+            <div class="cart">
+              <ul>
+                <cart-item-component
+                v-for="item in items"
+                :key="item.id"
+                :id="item.id"
+                :title="item.title"
+                :price="item.price"
+                :qty="item.qty"
+                @delete="handleDeleteClick"
+                @change="handleQuantityChange"></cart-item-component>
+              </ul>
+            </div>
+            <div class="total">Общая стоимость товаров: {{total}} рублей</div>
+        </div>`,
+      methods: {
+        handleDeleteClick(id){
+          this.$emit('delete', id)
+        },
+        handleQuantityChange(item){
+          this.$emit('change', item)
+        }
+      },
+      computed: {
+        total() {
+          return this.items.reduce((acc, item) => acc + item.qty * item.price, 0);
+        },
+      },
+      components: {
+        'cart-item-component': CartItemComponent
+      }
+    };
+
     const app = new Vue({
       el: '#root',
       data: {
         items: [],
         cart: [],
         query: '',
-        isCartVisible: false,
+        isCartVisible: true,
       },
       methods: {
         handleBuyClick(item) {
@@ -136,6 +190,18 @@
         },
         toggleCart() {
           this.isCartVisible = !this.isCartVisible;
+        },
+        handleQuantityChange(item){
+          const cartItem = this.cart.find((cartItem) => +cartItem.id === +item.id);
+          cartItem.qty = item.qty;
+
+          fetch(`/cart/${item.id}`,{
+            method: 'PATCH',
+            body: JSON.stringify({qty: item.qty}),
+            headers: {
+              'Content-type': 'application/json',
+            }
+          })
         }
       },
       mounted() {
@@ -152,9 +218,6 @@
           });
       },
       computed: {
-        total() {
-          return this.cart.reduce((acc, item) => acc + item.qty * item.price, 0);
-        },
         filteredItems() {
           return this.items.filter((item) => {
             const regexp = new RegExp(this.query, 'i');
@@ -165,6 +228,7 @@
       },
       components: {
         'items-list-component': ItemsListComponent,
-        'search-component': SearchComponent
+        'search-component': SearchComponent,
+        'cart-component': CartComponent
       },
     });
