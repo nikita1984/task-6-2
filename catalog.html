@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <h1>Интернет магазин</h1>
+    <main>
+      <search-component @search="onQueryChanged"></search-component>
+      <!-- @buy - собственное событие, всегда пишется с маленькой буквы, даже если состоит из нескольких слов
+               handleBuyClick - метод обработки события, всегда прописывавается в методах основного приложения vue, в самом 
+               компоненте в разметке templates в атрибутах дублируется запись события с указанием аргумента (item) для
+               функции обработчика @buy="handleBuyClick(item), затем в методах metods компонента прописывается конструкция 
+               handleBuyClick(item) { this.$emit('buy', item); } , где  (item) - аргумент обработчика (функции-обработчика)
+               события, а this.$emit('buy', item) - специальная конструкция связки с обработчиком события, которое мы 
+               записали в основном приложении, где 'buy' - название собтия, на которое будет запускаться обработчик, а item
+                - аргумент, который будет передаваться в обработчик -->
+      <items-list-component :items="filteredItems" @buy="handleBuyClick"></items-list-component>
+      <button @click="toggleCart">Показать/скрыть корзину</button>
+      <div v-if="isCartVisible">
+        <cart-component :items="cart" @changed="handleCartChange" @deleted="handleDeleteClick"></cart-component>
+      </div>
+    </main>
+  </div>
+  <script src="catalog.js"></script>
+</body>
+
+</html>
